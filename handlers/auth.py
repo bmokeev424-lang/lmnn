@@ -19,7 +19,7 @@ class AuthStates(StatesGroup):
     waiting_for_location = State()
 
 USER_DATA = {}  # user_id → dict
-ADMIN_PHONES = {"+79991112233"}  # ← ЗАМЕНИТЕ НА СВОЙ НОМЕР
+ADMIN_PHONES = {"+79991112233"} 
 
 REGIONS = ["Москва", "Санкт-Петербург", "Екатеринбург", "Новосибирск", "Казань", "Другой"]
 INTERESTS = ["Спорт", "Музыка", "Кино", "Путешествия", "Игры", "Книги", "Технологии"]
@@ -28,8 +28,7 @@ INTERESTS = ["Спорт", "Музыка", "Кино", "Путешествия",
 async def cmd_start(message: Message, state: FSMContext):
     await state.clear()
     await message.answer(
-        "Что может этот бот:\n"
-        "Организация мероприятий, поиск участников, общение по интересам.",
+        "Давай веселиться",
         reply_markup=ReplyKeyboardMarkup(
             keyboard=[[KeyboardButton(text="Запустить")]],
             resize_keyboard=True
