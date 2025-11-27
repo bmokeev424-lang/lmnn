@@ -7,7 +7,6 @@ from keyboards.reply import main_menu
 
 router = Router()
 
-# --- FSM ---
 class AuthStates(StatesGroup):
     waiting_for_phone = State()
     waiting_for_name = State()
@@ -19,15 +18,12 @@ class AuthStates(StatesGroup):
     waiting_for_photo = State()
     waiting_for_location = State()
 
-# --- ГЛОБАЛЬНОЕ ХРАНИЛИЩЕ ---
 USER_DATA = {}  # user_id → dict
 ADMIN_PHONES = {"+79991112233"}  # ← ЗАМЕНИТЕ НА СВОЙ НОМЕР
 
-# --- СПИСКИ (временно) ---
 REGIONS = ["Москва", "Санкт-Петербург", "Екатеринбург", "Новосибирск", "Казань", "Другой"]
 INTERESTS = ["Спорт", "Музыка", "Кино", "Путешествия", "Игры", "Книги", "Технологии"]
 
-# --- /start ---
 @router.message(F.text == "/start")
 async def cmd_start(message: Message, state: FSMContext):
     await state.clear()
@@ -206,5 +202,4 @@ async def handle_location_or_skip(message: Message, state: FSMContext):
 async def invalid_location(message: Message):
     await message.answer("Пожалуйста, отправьте геопозицию или нажмите «Пропустить».")
 
-# Экспорт для common.py
 USER_DATA = USER_DATA
