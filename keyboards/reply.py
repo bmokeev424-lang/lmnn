@@ -2,6 +2,7 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 main_menu = ReplyKeyboardMarkup(
     keyboard=[
+        [KeyboardButton(text="👤 Мой профиль")],
         [KeyboardButton(text="🎮 Игры")],
         [KeyboardButton(text="📖 Читалка Ведьмака")],
         [KeyboardButton(text="ℹ️ О боте")]

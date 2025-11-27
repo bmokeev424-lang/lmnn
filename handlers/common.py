@@ -1,16 +1,34 @@
 from aiogram import Router, F
 from aiogram.types import Message
 from keyboards.reply import main_menu, games_menu
+from handlers.auth import USER_DATA
 
 router = Router()
 
-@router.message(F.text == "/start")
-async def start_command(message: Message):
-    await message.answer("Добро пожаловать!", reply_markup=main_menu)
+@router.message(F.text == "👤 Мой профиль")
+async def my_profile(message: Message):
+    profile = USER_DATA.get(message.from_user.id)
+    if not profile:
+        await message.answer("❌ Профиль не найден. Пройдите регистрацию заново (/start).")
+        return
 
-@router.message(F.text == "/help")
-async def help_command(message: Message):
-    await message.answer("если нужна инфа об играх, просто нажми на кнопку 'о боте'")
+    lines = []
+    lines.append(f"👤 <b>{profile['name']} {profile['surname']}</b>")
+    if profile.get("age"):
+        lines.append(f"🎂 Возраст: {profile['age']}")
+    if profile.get("gender"):
+        lines.append(f"⚧️ Пол: {profile['gender']}")
+    if profile.get("region"):
+        lines.append(f"📍 Регион: {profile['region']}")
+    if profile.get("interests"):
+        lines.append(f"❤️ Интересы: {profile['interests']}")
+
+    text = "\n".join(lines)
+
+    if profile.get("photo"):
+        await message.answer_photo(photo=profile["photo"], caption=text, parse_mode="HTML")
+    else:
+        await message.answer(text, parse_mode="HTML")
 
 @router.message(F.text == "🎮 Игры")
 async def show_games(message: Message):
@@ -37,12 +55,11 @@ async def about_bot(message: Message):
 async def witcher_reader(message: Message):
     await message.answer("Раздел 'Читалка Ведьмака' в разработке 🏗️", reply_markup=main_menu)
 
-# УБЕДИТЕСЬ, что этот обработчик НЕ перехватывает числа
-# Если он есть - он должен быть ТОЛЬКО для действительно неизвестных сообщений
 @router.message()
 async def handle_unknown(message: Message):
-    # Этот обработчик должен срабатывать только если другие не обработали сообщение
-    await message.answer(
-        "Извините, я не понимаю это сообщение.\nПожалуйста, используйте кнопки меню.",
+    gif_url = "https://media1.tenor.com/m/eBWplvjY4RUAAAAC/mi.gif"
+    await message.answer_animation(
+        animation=gif_url,
+        caption="Извините, я не понимаю это сообщение.\nПожалуйста, используйте кнопки меню.",
         reply_markup=main_menu
     )

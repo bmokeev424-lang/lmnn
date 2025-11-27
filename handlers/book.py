@@ -107,7 +107,7 @@ async def show_article(obj, user_id: int, article_index: int, part_index: int = 
 
     if full_text.startswith("❌"):
         escaped_title = escape(article['title'])
-        # ИСПРАВЛЕНО: убраны необъявленные переменные
+
         msg = f"📚 *{escaped_title}*\n\n{escape(full_text)}"
         kb = get_reader_keyboard(article_index, part_index, len(ARTICLES), False, 1)
         if isinstance(obj, Message):
