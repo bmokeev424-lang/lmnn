@@ -12,7 +12,7 @@ router = Router()
 user_reading_states = {}
 
 def escape(text: str) -> str:
-    """Экранирует специальные символы MarkdownV2."""
+
     special_chars = r'_*[]()~`>#+-=|{}.!'
     for char in special_chars:
         text = text.replace(char, '\\' + char)
@@ -152,7 +152,6 @@ async def start_reader(message: Message):
     }
     await show_article(message, user_id, 0, 0)
 
-# --- Все callback-хендлеры ---
 @router.callback_query(F.data.startswith("read_next_part_"))
 async def read_next_part(callback: CallbackQuery):
     try:
@@ -254,7 +253,6 @@ async def go_to_bookmark(callback: CallbackQuery):
     else:
         await callback.answer("Нет активной закладки.", show_alert=True)
 
-# Добавьте обработчик для кнопки "Назад" в главное меню
 @router.message(F.text == "⬅️ Назад")
 async def back_to_main(message: Message):
     user_id = message.from_user.id
